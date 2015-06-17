@@ -4,11 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
 
 /**
  * Created by megboudreau on 15-06-17.
