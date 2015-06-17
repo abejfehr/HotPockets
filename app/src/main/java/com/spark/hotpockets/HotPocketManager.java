@@ -17,7 +17,7 @@ public class HotPocketManager extends ActionBarActivity {
 
         // Instantiate the database manager
         Context context = getApplicationContext();
-        DatabaseManager dbm = new DatabaseManager(context);
+        //DatabaseManager dbm = new DatabaseManager(context);
 
         // Start the Hot Pocket Scout if it's not already started
         Intent i = new Intent(context, HotPocketScout.class);
@@ -36,10 +36,15 @@ public class HotPocketManager extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Intent intent;
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //Open new Activity if 'plus' button is pressed on Action Bar
         if (id == R.id.button_add) {
+            intent = new Intent(getApplicationContext(), AddLocationActivity.class);
+            startActivityForResult(intent, 0);
+            //mode.finish(); // Action picked, so close the CAB
             return true;
         }
 

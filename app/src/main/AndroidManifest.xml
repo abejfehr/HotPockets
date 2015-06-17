@@ -21,7 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service android:name=".HotPocketScout" />
+
+        <activity
+            android:name=".AddLocationActivity"
+            android:label="@string/title_activity_add_location" >
+        </activity>
     </application>
 
 </manifest>
