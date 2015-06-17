@@ -74,14 +74,15 @@ public class HotPocketScout extends android.app.Service implements LocationListe
         Location hotPocketTestLocation = new Location("");
         hotPocketTestLocation.setLatitude(45.3373744d);
         hotPocketTestLocation.setLongitude(-76.2781496d);
-
+        
         WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_LONG;
 
         float distance = location.distanceTo(hotPocketTestLocation);
         if(distance > 200) {
-            // Check if we're already connected to a WiFi network(and don't disconnect if we are)
+
+            // Get the WiFi state to check if we're already connected to a WiFi network(and don't disconnect if we are)
             ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
