@@ -30,9 +30,13 @@ public class AddLocationActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.return_home) {
+            finish();
+            finishActivity(0);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

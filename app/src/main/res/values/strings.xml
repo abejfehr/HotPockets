@@ -10,6 +10,7 @@
     <string name="HOT_POCKETS">HOT_POCKETS</string>
     <string name="title_activity_add_location">AddLocationActivity</string>
     <string name="submit">Submit</string>
+    <string name="nickname">Nickname</string>
 
     <!-- Database Stuff -->
     <string name="DB_NAME">hpdb</string>
