@@ -16,6 +16,10 @@ public class HotPocketManager extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hot_pocket_manager);
 
+        // Instantiate the database manager
+        Context context = getApplicationContext();
+        DatabaseManager db = new DatabaseManager(context);
+
         Log.i(HotPocketConstants.HOT_POCKET, "Achieved State 1");
         // Start the Hot Pocket Scout if it's not already started
         Context context = getApplicationContext();

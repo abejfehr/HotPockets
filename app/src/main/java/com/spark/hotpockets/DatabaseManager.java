@@ -28,34 +28,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
 
         db.execSQL("CREATE TABLE "+locationTable+
-        "("+"colAddress"+" TEXT PRIMARY KEY, "+
-        colWifi+" TEXT, "+colLat+" Integer, "+colLong+"
-        INTEGER ,FOREIGN KEY ("+colDept+") REFERENCES
-        "+deptTable+" ("+colDeptID+"));");
+        "("+colAddress+" TEXT PRIMARY KEY, "+
+        colWifi+" TEXT, "+colLat+" Integer, "+colLong+" Integer,);");
 
 
-        db.execSQL("CREATE TRIGGER fk_empdept_deptid " +
-                        " BEFORE INSERT "+
-                        " ON "+employeeTable+
-
-                        " FOR EACH ROW BEGIN"+
-                        " SELECT CASE WHEN ((SELECT "+colDeptID+" FROM "+deptTable+"
-                WHERE "+colDeptID+"=new."+colDept+" ) IS NULL)"+
-        " THEN RAISE (ABORT,'Foreign Key Violation') END;"+
-                "  END;");
-
-        db.execSQL("CREATE VIEW "+viewEmps+
-                        " AS SELECT "+employeeTable+"."+colID+" AS _id,"+
-                        " "+employeeTable+"."+colName+","+
-                        " "+employeeTable+"."+colAge+","+
-                        " "+deptTable+"."+colDeptName+""+
-                        " FROM "+employeeTable+" JOIN "+deptTable+
-                        " ON "+employeeTable+"."+colDept+" ="+deptTable+"."+colDeptID
-        );
-        //Inserts pre-defined departments
-        InsertDepts(db);
     }
-    }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
