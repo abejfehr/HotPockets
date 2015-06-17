@@ -16,8 +16,12 @@ import android.widget.Toast;
  */
 public class HotPocketScout extends android.app.Service implements LocationListener {
 
-    private static final long MIN_TIME_INTERVAL = 1000 * 60 * 3; // Three minutes
-    private static final long MIN_DIST_INTERVAL = 50; // Fifty metres
+    // TODO: Use these values in "production"
+    //private static final long MIN_TIME_INTERVAL = 1000 * 60 * 3; // Three minutes
+    //private static final long MIN_DIST_INTERVAL = 50; // Fifty metres
+
+    private static final long MIN_TIME_INTERVAL = 1000 * 30; // Thirty seconds
+    private static final long MIN_DIST_INTERVAL = 10; // Thirty seconds
 
     private LocationManager locationManager;
 
@@ -26,7 +30,6 @@ public class HotPocketScout extends android.app.Service implements LocationListe
         super.onCreate();
 
         // Acquire a reference to the system Location Manager
-        Log.i(HotPocketConstants.HOT_POCKET, Context.LOCATION_SERVICE);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     }
 
@@ -64,9 +67,16 @@ public class HotPocketScout extends android.app.Service implements LocationListe
     public void checkIfInHotPocket(Location location) {
         // Get the hotpocket locations from the database manager
         // Loop through them and determine whether or not we're near any of the hot pockets
-
-
         // TODO: Make it do what the comments above say to do. This is currently for testing only
+
+        // Create a sample location for testing (Somewhere near Arnprior, ON)
+        Location hotPocketTestLocation = new Location("");
+        hotPocketTestLocation.setLatitude(45.3373744d);
+        hotPocketTestLocation.setLongitude(-76.2781496d);
+
+        if(location.distanceTo(hotPocketTestLocation) > 200) {
+
+        }
 
         Context context = getApplicationContext();
         CharSequence text = "I just got an updated location!!";

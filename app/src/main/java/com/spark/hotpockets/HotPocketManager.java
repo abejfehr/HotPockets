@@ -20,14 +20,9 @@ public class HotPocketManager extends ActionBarActivity {
         Context context = getApplicationContext();
         DatabaseManager db = new DatabaseManager(context);
 
-        Log.i(HotPocketConstants.HOT_POCKET, "Achieved State 1");
         // Start the Hot Pocket Scout if it's not already started
-        Context context = getApplicationContext();
-        Log.i(HotPocketConstants.HOT_POCKET, "Achieved State 2");
         Intent i = new Intent(context, HotPocketScout.class);
-        Log.i(HotPocketConstants.HOT_POCKET, "Achieved State 3");
         context.startService(i);
-        Log.i(HotPocketConstants.HOT_POCKET, "Achieved State 4");
     }
 
     @Override
