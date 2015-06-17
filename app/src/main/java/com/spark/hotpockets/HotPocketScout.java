@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -57,10 +58,8 @@ public class HotPocketScout extends android.app.Service implements LocationListe
     /*
 
     Things we need to do
-    - check for location - onLocationChanged
     - get the list of hotpockets from the dbmanager
     - check if current location is in a hotpocket
-    - disable or enable wifi based on that information
 
      */
 
@@ -74,16 +73,30 @@ public class HotPocketScout extends android.app.Service implements LocationListe
         hotPocketTestLocation.setLatitude(45.3373744d);
         hotPocketTestLocation.setLongitude(-76.2781496d);
 
-        if(location.distanceTo(hotPocketTestLocation) > 200) {
-
-        }
-
+        WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         Context context = getApplicationContext();
-        CharSequence text = "I just got an updated location!!";
-        int duration = Toast.LENGTH_SHORT;
+        int duration = Toast.LENGTH_LONG;
 
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        float distance = location.distanceTo(hotPocketTestLocation);
+        if(distance > 200) {
+            // Turn off the wifi
+            if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
+                wifiManager.setWifiEnabled(false);
+                CharSequence text = "Disabling the WiFi connection";
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+                Log.i(getString(R.string.HOT_POCKETS), "LatLng X is " + distance + " meters away...disabling the WiFi connection");
+            }
+        } else {
+            // Turn on the wifi
+            if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
+                wifiManager.setWifiEnabled(true);
+                CharSequence text = "Enabling the WiFi connection";
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+                Log.i(getString(R.string.HOT_POCKETS), "LatLng X is " + distance + " meters away...enabling the WiFi connection");
+            }
+        }
 
     }
 
