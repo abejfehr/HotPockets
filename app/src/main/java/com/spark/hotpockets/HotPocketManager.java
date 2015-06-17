@@ -18,7 +18,7 @@ public class HotPocketManager extends ActionBarActivity {
 
         // Instantiate the database manager
         Context context = getApplicationContext();
-        DatabaseManager db = new DatabaseManager(context);
+        DatabaseManager dbm = new DatabaseManager(context);
 
         // Start the Hot Pocket Scout if it's not already started
         Intent i = new Intent(context, HotPocketScout.class);
@@ -40,7 +40,7 @@ public class HotPocketManager extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.button_add) {
             return true;
         }
 
