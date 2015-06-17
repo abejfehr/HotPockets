@@ -15,52 +15,31 @@ import android.util.Log;
  */
 public class DatabaseManager extends SQLiteOpenHelper {
 
-    static final String DATABASE_NAME = "hotPocketDB";
-    static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "hpdb";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_CREATE = "CREATE TABLE HOTPOCKETS (nickname TEXT, lat " +
+            "REAL, lng REAL, PRIMARY KEY (nickname, lat, lng));";
 
-<<<<<<< Updated upstream
-=======
-    static final String viewLoc="viewLocations";
->>>>>>> Stashed changes
     Context context;
 
     public DatabaseManager(Context context) {
-        super(context, dbName, null, 1);
-<<<<<<< Updated upstream
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
-        SQLiteDatabase myDB = SQLiteDatabase.openOrCreateDatabase("hpdb",  , null);
-        create();
-    }
-
-    public void create(SQLiteDatabase db) {
-        String createSQL = "CREATE TABLE " + hotPocketsTable + "(" + colNickname + " TEXT, " +
-                colLat + " REAL, " + colLong + " REAL, PRIMARY KEY (" + colNickname + ", " +
-                colLat + ", " + colLong + "));";
-        Log.i(context.getString(R.string.HOT_POCKETS), createSQL);
-        db.execSQL(createSQL);
-=======
-        /*this.context = context;
-        SQLiteDatabase db = getSQLiteDatabase();
-        this.createDatabase(db);*/
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-
-        String createStatement = "CREATE TABLE "+locationTable+
-                "("+colAddress+" VARCHAR, "+
-                colWifi+" VARCHAR, "+colLat+" INTEGER, "+colLong+
-                " INTEGER, PRIMARY KEY (" + colLat
-                + ", " + colLong + "));";
-        Log.i(context.getString(R.string.HOT_POCKETS), createStatement);
-        db.execSQL(createStatement);
-
-
->>>>>>> Stashed changes
+    public void onCreate(SQLiteDatabase database) {
+        database.execSQL(DATABASE_CREATE);
+        Log.i(context.getString(R.string.HOT_POCKETS), DATABASE_CREATE);
+        database.execSQL(DATABASE_CREATE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+    public void onUpgrade(SQLiteDatabase database,int oldVersion,int newVersion){
+        Log.w(DatabaseManager.class.getName(),
+                "Upgrading database from version " + oldVersion + " to "
+                        + newVersion + ", which will destroy all old data");
+        database.execSQL("DROP TABLE IF EXISTS MyEmployees");
+        onCreate(database);
     }
 }
