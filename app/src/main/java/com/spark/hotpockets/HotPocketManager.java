@@ -1,7 +1,10 @@
 package com.spark.hotpockets;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,8 +15,16 @@ public class HotPocketManager extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hot_pocket_manager);
-    }
 
+        Log.i(HotPocketConstants.HOT_POCKET, "Achieved State 1");
+        // Start the Hot Pocket Scout if it's not already started
+        Context context = getApplicationContext();
+        Log.i(HotPocketConstants.HOT_POCKET, "Achieved State 2");
+        Intent i = new Intent(context, HotPocketScout.class);
+        Log.i(HotPocketConstants.HOT_POCKET, "Achieved State 3");
+        context.startService(i);
+        Log.i(HotPocketConstants.HOT_POCKET, "Achieved State 4");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
