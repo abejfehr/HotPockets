@@ -15,8 +15,8 @@
     <!-- Database Stuff -->
     <string name="DB_NAME">hpdb</string>
     <string name="DB_TABLE">hotPockets</string>
-    <string name="DB_ROW_LAT">Submit</string>
-    <string name="DB_ROW_LONG">Submit</string>
-    <string name="DB_ROW_NICKNAME">Submit</string>
+    <string name="DB_ROW_LAT">lat</string>
+    <string name="DB_ROW_LONG">long</string>
+    <string name="DB_ROW_NICKNAME">nickname</string>
 
 </resources>
