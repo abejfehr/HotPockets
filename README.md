@@ -1,2 +1,2 @@
-# AbeAndMegansApp
+# HotPockets
 Our awesome Spark Day submission
