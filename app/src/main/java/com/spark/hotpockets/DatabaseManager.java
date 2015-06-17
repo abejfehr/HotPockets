@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by megboudreau on 15-06-17.
  */
@@ -36,5 +38,17 @@ public class DatabaseManager extends SQLiteOpenHelper {
                         + newVersion + ", which will destroy all old data");
         database.execSQL("DROP TABLE IF EXISTS MyEmployees");
         onCreate(database);
+    }
+
+    public void addHotPocket(HotPocket hotPocket) {
+
+    }
+
+    public void removeHotPocket(String nickname) {
+
+    }
+
+    public ArrayList<HotPocket> getHotPockets() {
+
     }
 }
