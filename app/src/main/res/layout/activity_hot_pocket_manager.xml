@@ -14,4 +14,6 @@
         android:id="@+id/editText"
         android:layout_gravity="center_horizontal"
         android:hint="@string/enter_address" />
+
+
 </LinearLayout>
