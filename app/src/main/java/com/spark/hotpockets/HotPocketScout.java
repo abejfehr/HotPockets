@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -79,8 +81,12 @@ public class HotPocketScout extends android.app.Service implements LocationListe
 
         float distance = location.distanceTo(hotPocketTestLocation);
         if(distance > 200) {
-            // Turn off the wifi
-            if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
+            // Check if we're already connected to a WiFi network(and don't disconnect if we are)
+            ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED && !mWifi.isConnected()) {
+                // Turn off the WiFi
                 wifiManager.setWifiEnabled(false);
                 CharSequence text = "Disabling the WiFi connection";
                 Toast toast = Toast.makeText(context, text, duration);
@@ -88,8 +94,8 @@ public class HotPocketScout extends android.app.Service implements LocationListe
                 Log.i(getString(R.string.HOT_POCKETS), "LatLng X is " + distance + " meters away...disabling the WiFi connection");
             }
         } else {
-            // Turn on the wifi
             if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
+                // Turn on the WiFi
                 wifiManager.setWifiEnabled(true);
                 CharSequence text = "Enabling the WiFi connection";
                 Toast toast = Toast.makeText(context, text, duration);
