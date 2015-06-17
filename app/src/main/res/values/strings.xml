@@ -11,4 +11,11 @@
     <string name="title_activity_add_location">AddLocationActivity</string>
     <string name="submit">Submit</string>
 
+    <!-- Database Stuff -->
+    <string name="DB_NAME">hpdb</string>
+    <string name="DB_TABLE">hotPockets</string>
+    <string name="DB_ROW_LAT">Submit</string>
+    <string name="DB_ROW_LONG">Submit</string>
+    <string name="DB_ROW_NICKNAME">Submit</string>
+
 </resources>

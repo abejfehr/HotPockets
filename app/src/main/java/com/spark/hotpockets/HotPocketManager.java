@@ -20,8 +20,6 @@ public class HotPocketManager extends ActionBarActivity {
 
         // Instantiate the database manager
         Context context = getApplicationContext();
-        DatabaseManager dbManager = new DatabaseManager(context);
-        db = dbManager.getWritableDatabase();
 
         // Start the Hot Pocket Scout if it's not already started
         Intent i = new Intent(context, HotPocketScout.class);

@@ -1,6 +1,8 @@
 package com.spark.hotpockets;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -10,45 +12,58 @@ import java.util.ArrayList;
 /**
  * Created by megboudreau on 15-06-17.
  */
-public class DatabaseManager extends SQLiteOpenHelper {
+public class DatabaseManager {
 
-    private static final String DATABASE_NAME = "hpdb";
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_CREATE = "CREATE TABLE HOTPOCKETS (nickname TEXT, lat " +
-            "REAL, lng REAL, PRIMARY KEY (nickname, lat, lng));";
+    private Context context;
+    private DatabaseHelper dbHelper;
+    private SQLiteDatabase db;
 
-    Context context;
-
-    public DatabaseManager(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    DatabaseManager(Context context) {
         this.context = context;
-    }
+        this.dbHelper = new DatabaseHelper(context);
+        this.db = dbHelper.getWritableDatabase();
 
-    @Override
-    public void onCreate(SQLiteDatabase database) {
-        database.execSQL(DATABASE_CREATE);
-        Log.i(context.getString(R.string.HOT_POCKETS), DATABASE_CREATE);
-        database.execSQL(DATABASE_CREATE);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase database,int oldVersion,int newVersion){
-        Log.w(DatabaseManager.class.getName(),
-                "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", which will destroy all old data");
-        database.execSQL("DROP TABLE IF EXISTS MyEmployees");
-        onCreate(database);
     }
 
     public void addHotPocket(HotPocket hotPocket) {
-
+        ContentValues values = new ContentValues();
+        values.put(context.getString(R.string.DB_ROW_LONG), hotPocket.getLong());
+        values.put(context.getString(R.string.DB_ROW_LAT), hotPocket.getLat());
+        values.put(context.getString(R.string.DB_ROW_NICKNAME), hotPocket.getNickname());
+        db.insert(context.getString(R.string.DB_TABLE),
+                null,
+                values);
     }
 
     public void removeHotPocket(String nickname) {
-
+        db.delete(context.getString(R.string.DB_TABLE),
+                context.getString(R.string.DB_ROW_NICKNAME) + "=" + nickname,
+                null);
     }
 
-    public ArrayList<HotPocket> getHotPockets() {
+    public ArrayList<HotPocket> getAllHotPockets() {
+        // Create the cursor thingy
+        Cursor  cursor = db.rawQuery("SELECT * FROM " + context.getString(R.string.DB_TABLE), null);
 
+        // Create a list to return later
+        ArrayList<HotPocket> list = new ArrayList<HotPocket>();
+
+        // Start from the beginning
+        if (cursor .moveToFirst()) {
+
+            while (!cursor.isAfterLast()) {
+                String nickname = cursor.getString(cursor
+                        .getColumnIndex(context.getString(R.string.DB_ROW_NICKNAME)));
+                double lat = cursor.getDouble(cursor
+                        .getColumnIndex(context.getString(R.string.DB_ROW_LAT)));
+                double lng = cursor.getDouble(cursor
+                        .getColumnIndex(context.getString(R.string.DB_ROW_LONG)));
+
+                list.add(new HotPocket(nickname, lat, lng));
+                cursor.moveToNext();
+            }
+        }
+
+        return list;
     }
 }
