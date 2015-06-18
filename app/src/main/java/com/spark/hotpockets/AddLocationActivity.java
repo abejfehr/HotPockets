@@ -1,9 +1,9 @@
 package com.spark.hotpockets;
 
 import android.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,13 +42,15 @@ public class AddLocationActivity extends ActionBarActivity implements OnMapReady
                     @Override
                     public void onClick(View v) {
 
+                        String nickname = "";
                         if(nicknameEditText.getText().toString().matches("")) {
                             noNicknameAddress();
                         }else{
+
                             //Toast argument
                             Context context = getApplicationContext();
                             int duration = Toast.LENGTH_SHORT;
-                            String nickname = nicknameEditText.getText().toString();
+                            nickname = nicknameEditText.getText().toString();
                             String added = " Added!";
                             String text =  nickname + added;
 
@@ -56,6 +58,8 @@ public class AddLocationActivity extends ActionBarActivity implements OnMapReady
                             Toast toast = Toast.makeText(context, text, duration);
                             toast.show();
                         }
+                        HotPocket hp = new HotPocket(nickname, HotPocketMain.lat, HotPocketMain.lng);
+                        dbManager.addHotPocket(hp);
 
                     }
                 }
@@ -96,7 +100,7 @@ public class AddLocationActivity extends ActionBarActivity implements OnMapReady
         //Error Toast
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
-        String text = "Enter a Nickname!";
+        String text = "Location Added!";
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }

@@ -27,4 +27,8 @@ public class HotPocket {
         return nickname;
     }
 
+    @Override
+    public String toString(){ return nickname; }
+
+
 }
