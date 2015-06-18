@@ -9,6 +9,9 @@ import android.view.MenuItem;
 
 public class HotPocketMain extends ActionBarActivity {
 
+    public static double lat;
+    public static double lng;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

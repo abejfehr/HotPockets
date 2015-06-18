@@ -132,6 +132,9 @@ public class HotPocketScout extends android.app.Service implements LocationListe
     public void onLocationChanged(Location location) {
         // Called when a new location is found by the network location provider
         checkIfInHotPocket(location);
+
+        HotPocketMain.lat = location.getLatitude();
+        HotPocketMain.lng = location.getLongitude();
     }
 
     @Override
