@@ -1,6 +1,5 @@
 package com.spark.hotpockets;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -29,8 +28,6 @@ public class AddLocationActivity extends ActionBarActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_location);
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         dbManager = new DatabaseManager(getApplicationContext());
 
