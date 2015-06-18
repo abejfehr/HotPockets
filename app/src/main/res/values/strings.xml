@@ -10,7 +10,7 @@
     <string name="HOT_POCKETS">HOT_POCKETS</string>
     <string name="title_activity_add_location">AddLocationActivity</string>
     <string name="submit">Add Hot Pocket</string>
-    <string name="nickname">Nickname</string>
+    <string name="nickname">Enter Address</string>
     <string name="close_activity">Close</string>
 
     <!-- Contextual Menu Stuff -->
