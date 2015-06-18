@@ -1,8 +1,6 @@
 package com.spark.hotpockets;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -11,19 +9,15 @@ import android.view.MenuItem;
 
 public class HotPocketManager extends ActionBarActivity {
 
-    private SQLiteDatabase db;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hot_pocket_manager);
 
-        // Instantiate the database manager
-        Context context = getApplicationContext();
-
         // Start the Hot Pocket Scout if it's not already started
-        Intent i = new Intent(context, HotPocketScout.class);
-        context.startService(i);
+        Intent startIntent = new Intent(HotPocketManager.this, HotPocketScout.class);
+        startIntent.setAction(getString(R.string.START_SCOUT_ACTION));
+        startService(startIntent);
     }
 
     @Override

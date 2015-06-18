@@ -19,4 +19,7 @@
     <string name="DB_ROW_LONG">long</string>
     <string name="DB_ROW_NICKNAME">nickname</string>
 
+    <!-- Service Stuff -->
+    <string name="START_SCOUT_ACTION">"com.park.hotpockets.action.startscout"</string>
+
 </resources>

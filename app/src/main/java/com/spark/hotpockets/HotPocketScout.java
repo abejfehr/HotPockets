@@ -1,5 +1,7 @@
 package com.spark.hotpockets;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -8,6 +10,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -23,10 +26,18 @@ public class HotPocketScout extends android.app.Service implements LocationListe
     //private static final long MIN_TIME_INTERVAL = 1000 * 60 * 3; // Three minutes
     //private static final long MIN_DIST_INTERVAL = 50; // Fifty metres
 
-    private static final long MIN_TIME_INTERVAL = 1000 * 30; // Thirty seconds
-    private static final long MIN_DIST_INTERVAL = 10; // Thirty seconds
+    private static final long MIN_TIME_INTERVAL = 1000 * 10; // Thirty seconds
+    private static final long MIN_DIST_INTERVAL = 10; // Ten meters
+
+    private final IBinder myBinder = new ScoutBinder();
 
     private LocationManager locationManager;
+
+    public class ScoutBinder extends Binder {
+        HotPocketScout getService() {
+            return HotPocketScout.this;
+        }
+    }
 
     @Override
     public void onCreate() {
@@ -54,26 +65,36 @@ public class HotPocketScout extends android.app.Service implements LocationListe
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
 
-        return super.onStartCommand(intent, flags, startId);
+        if (intent.getAction().equals(getString(R.string.START_SCOUT_ACTION))) {
+            Log.i(getString(R.string.HOT_POCKETS), "Received Start Foreground Intent");
+            Intent notificationIntent = new Intent(this, HotPocketManager.class);
+            notificationIntent.setAction("some.action.here");
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                    notificationIntent, 0);
+
+            Notification.Builder notificationBuilder = new Notification.Builder(this)
+                    .setContentTitle("Something")
+                    .setTicker("AnotherThing")
+                    .setContentText("More Things")
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true);
+
+            startForeground(1984, notificationBuilder.build());
+        }
+
+        return START_STICKY;
     }
-
-    /*
-
-    Things we need to do
-    - get the list of hotpockets from the dbmanager
-    - check if current location is in a hotpocket
-
-     */
 
     public void checkIfInHotPocket(Location location) {
         // Get the hotpocket locations from the database manager
         // Loop through them and determine whether or not we're near any of the hot pockets
         // TODO: Make it do what the comments above say to do. This is currently for testing only
 
-        // Create a sample location for testing (Somewhere near Arnprior, ON)
+        // Create a sample location for testing (BlackBerry office in Kanata, ON)
         Location hotPocketTestLocation = new Location("");
-        hotPocketTestLocation.setLatitude(45.3373744d);
-        hotPocketTestLocation.setLongitude(-76.2781496d);
+        hotPocketTestLocation.setLatitude(45.342562d);
+        hotPocketTestLocation.setLongitude(-75.928917d);
         
         WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         Context context = getApplicationContext();
@@ -109,7 +130,7 @@ public class HotPocketScout extends android.app.Service implements LocationListe
 
     @Override
     public void onLocationChanged(Location location) {
-        // Called when a new location is found by the network location provider.
+        // Called when a new location is found by the network location provider
         checkIfInHotPocket(location);
     }
 
@@ -127,4 +148,12 @@ public class HotPocketScout extends android.app.Service implements LocationListe
     public void onProviderDisabled(String provider) {
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(getString(R.string.HOT_POCKETS), "Destroying the service now");
+    }
+
+
 }
