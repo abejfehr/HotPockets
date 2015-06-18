@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,15 +68,12 @@ public class AddLocationActivity extends ActionBarActivity implements OnMapReady
                 }
         );
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getString(R.string.app_name));
+
+        // Get the map fragment
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_location, menu);
-        return true;
     }
 
     @Override
@@ -84,13 +82,6 @@ public class AddLocationActivity extends ActionBarActivity implements OnMapReady
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.return_home) {
-            finish();
-            finishActivity(0);
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

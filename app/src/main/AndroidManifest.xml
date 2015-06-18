@@ -34,7 +34,11 @@
 
         <activity
             android:name=".AddLocationActivity"
-            android:label="@string/title_activity_add_location" />
+            android:label="@string/title_activity_add_location">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.spark.hotpockets.HotPocketMain" />
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
