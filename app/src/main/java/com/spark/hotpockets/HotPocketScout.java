@@ -17,17 +17,16 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by abe on 15-06-17.
  */
 public class HotPocketScout extends android.app.Service implements LocationListener {
 
-    // TODO: Use these values in "production"
-    //private static final long MIN_TIME_INTERVAL = 1000 * 60 * 3; // Three minutes
-    //private static final long MIN_DIST_INTERVAL = 50; // Fifty metres
-
-    private static final long MIN_TIME_INTERVAL = 1000 * 10; // Thirty seconds
-    private static final long MIN_DIST_INTERVAL = 10; // Ten meters
+    // TODO: The following values are for demo purposes only.
+    private static final long MIN_TIME_INTERVAL = 1000 * 10; // Ten seconds
+    private static final long MIN_DIST_INTERVAL = 10; // Ten metres
 
     private final IBinder myBinder = new ScoutBinder();
 
@@ -57,14 +56,7 @@ public class HotPocketScout extends android.app.Service implements LocationListe
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Start polling for location
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_INTERVAL, MIN_DIST_INTERVAL, this);
-
-        Context context = getApplicationContext();
-        CharSequence text = "The location service is now started!";
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-
+        
         if (intent != null && intent.getAction().equals(getString(R.string.START_SCOUT_ACTION))) {
             Log.i(getString(R.string.HOT_POCKETS), "Received Start Foreground Intent");
             Intent notificationIntent = new Intent(this, HotPocketMain.class);
@@ -89,41 +81,50 @@ public class HotPocketScout extends android.app.Service implements LocationListe
     public void checkIfInHotPocket(Location location) {
         // Get the hotpocket locations from the database manager
         // Loop through them and determine whether or not we're near any of the hot pockets
-        // TODO: Make it do what the comments above say to do. This is currently for testing only
-
-        // Create a sample location for testing (BlackBerry office in Kanata, ON)
-        Location hotPocketTestLocation = new Location("");
-        hotPocketTestLocation.setLatitude(45.342562d);
-        hotPocketTestLocation.setLongitude(-75.928917d);
-        
         WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_LONG;
 
-        float distance = location.distanceTo(hotPocketTestLocation);
-        if(distance > 200) {
-
-            // Get the WiFi state to check if we're already connected to a WiFi network(and don't disconnect if we are)
-            ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-            if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED && !mWifi.isConnected()) {
-                // Turn off the WiFi
-                wifiManager.setWifiEnabled(false);
-                CharSequence text = "Disabling the WiFi connection";
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-                Log.i(getString(R.string.HOT_POCKETS), "LatLng X is " + distance + " meters away...disabling the WiFi connection");
+        DatabaseManager dbMan = new DatabaseManager(context);
+        ArrayList<HotPocket> hotPocketList = dbMan.getAllHotPockets();
+        Log.i(getString(R.string.HOT_POCKETS), "Beginning to loop through all " + hotPocketList.size() + " items.");
+        for(HotPocket hp : hotPocketList) {
+            Location loc = new Location("");
+            loc.setLatitude(hp.getLat());
+            loc.setLongitude(hp.getLong());
+            float distance = location.distanceTo(loc);
+            Log.i(getString(R.string.HOT_POCKETS), "Comparing " + hp.getLat() +  ", " +
+                    hp.getLong() + " with " + location.getLatitude() +  ", " +
+                    location.getLongitude() + ", the distance is: " + distance +
+                    " meters away.");
+            if(distance < 200) {
+                if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
+                    // Turn on the WiFi
+                    wifiManager.setWifiEnabled(true);
+                    CharSequence text = "Enabling the WiFi connection";
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    Log.i(getString(R.string.HOT_POCKETS), "LatLng " + hp.getLat() +  ", " +
+                            hp.getLong() + " is only " + distance +
+                            " meters away...enabling the WiFi connection");
+                    return;
+                }
             }
-        } else {
-            if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
-                // Turn on the WiFi
-                wifiManager.setWifiEnabled(true);
-                CharSequence text = "Enabling the WiFi connection";
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-                Log.i(getString(R.string.HOT_POCKETS), "LatLng X is " + distance + " meters away...enabling the WiFi connection");
-            }
+        }
+
+        // If we exhausted the list and still aren't in any Hot Pockets, just disable the WiFi...
+
+        // Get the WiFi state to check if we're already connected to a WiFi network(and don't disconnect if we are)
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED && !mWifi.isConnected()) {
+            // Turn off the WiFi
+            wifiManager.setWifiEnabled(false);
+            CharSequence text = "Disabling the WiFi connection";
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            Log.i(getString(R.string.HOT_POCKETS), "Everything is too far away...disabling the WiFi connection");
         }
 
     }

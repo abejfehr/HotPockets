@@ -60,6 +60,11 @@ public class HotPocketMain extends ActionBarActivity {
         registerForContextMenu(locationListView);
 
         Log.i("HOT_POCKETS", "I am in onRestart()");
+        stopService(new Intent(getApplicationContext(), HotPocketScout.class));
+        Intent startIntent = new Intent(getApplicationContext(), HotPocketScout.class);
+        startIntent.setAction(getString(R.string.START_SCOUT_ACTION));
+        startService(startIntent);
+
     }
 
     @Override
@@ -74,6 +79,11 @@ public class HotPocketMain extends ActionBarActivity {
         registerForContextMenu(locationListView);
 
         Log.i("HOT_POCKETS", "I am in onResume()");
+        stopService(new Intent(getApplicationContext(), HotPocketScout.class));
+        Intent startIntent = new Intent(getApplicationContext(), HotPocketScout.class);
+        startIntent.setAction(getString(R.string.START_SCOUT_ACTION));
+        startService(startIntent);
+
     }
 
     @Override
@@ -88,6 +98,11 @@ public class HotPocketMain extends ActionBarActivity {
         registerForContextMenu(locationListView);
 
         Log.i("HOT_POCKETS", "I am in onStart()");
+        stopService(new Intent(getApplicationContext(), HotPocketScout.class));
+        Intent startIntent = new Intent(getApplicationContext(), HotPocketScout.class);
+        startIntent.setAction(getString(R.string.START_SCOUT_ACTION));
+        startService(startIntent);
+
     }
 
     @Override
