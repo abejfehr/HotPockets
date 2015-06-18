@@ -67,7 +67,7 @@ public class HotPocketScout extends android.app.Service implements LocationListe
 
         if (intent.getAction().equals(getString(R.string.START_SCOUT_ACTION))) {
             Log.i(getString(R.string.HOT_POCKETS), "Received Start Foreground Intent");
-            Intent notificationIntent = new Intent(this, HotPocketManager.class);
+            Intent notificationIntent = new Intent(this, HotPocketMain.class);
             notificationIntent.setAction("some.action.here");
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,

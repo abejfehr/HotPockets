@@ -7,15 +7,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class HotPocketManager extends ActionBarActivity {
+public class HotPocketMain extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hot_pocket_manager);
+        setContentView(R.layout.activity_hot_pocket_main);
 
         // Start the Hot Pocket Scout if it's not already started
-        Intent startIntent = new Intent(HotPocketManager.this, HotPocketScout.class);
+        Intent startIntent = new Intent(HotPocketMain.this, HotPocketScout.class);
         startIntent.setAction(getString(R.string.START_SCOUT_ACTION));
         startService(startIntent);
     }
@@ -23,7 +23,7 @@ public class HotPocketManager extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_hot_pocket_manager, menu);
+        getMenuInflater().inflate(R.menu.menu_hot_pocket_main, menu);
         return true;
     }
 
