@@ -4,10 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -19,6 +24,7 @@ public class HotPocketMain extends ActionBarActivity {
 
     private ListView locationListView;
 
+    private String selectedWord = null;
 
 
     @Override
@@ -38,6 +44,7 @@ public class HotPocketMain extends ActionBarActivity {
         ArrayAdapter<HotPocket> adapter = new ArrayAdapter<HotPocket>(this,
                 android.R.layout.simple_list_item_1, hpListPopulants);
         locationListView.setAdapter(adapter);
+        registerForContextMenu(locationListView);
 
     }
 
@@ -50,6 +57,7 @@ public class HotPocketMain extends ActionBarActivity {
         ArrayAdapter<HotPocket> adapter = new ArrayAdapter<HotPocket>(this,
                 android.R.layout.simple_list_item_1, hpListPopulants);
         locationListView.setAdapter(adapter);
+        registerForContextMenu(locationListView);
 
         Log.i("HOT_POCKETS", "I am in onRestart()");
     }
@@ -63,6 +71,7 @@ public class HotPocketMain extends ActionBarActivity {
         ArrayAdapter<HotPocket> adapter = new ArrayAdapter<HotPocket>(this,
                 android.R.layout.simple_list_item_1, hpListPopulants);
         locationListView.setAdapter(adapter);
+        registerForContextMenu(locationListView);
 
         Log.i("HOT_POCKETS", "I am in onResume()");
     }
@@ -76,6 +85,7 @@ public class HotPocketMain extends ActionBarActivity {
         ArrayAdapter<HotPocket> adapter = new ArrayAdapter<HotPocket>(this,
                 android.R.layout.simple_list_item_1, hpListPopulants);
         locationListView.setAdapter(adapter);
+        registerForContextMenu(locationListView);
 
         Log.i("HOT_POCKETS", "I am in onStart()");
     }
@@ -106,4 +116,38 @@ public class HotPocketMain extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        //super.onCreateContextMenu(menu, v, menuInfo);
+        AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo) menuInfo;
+        selectedWord = ((TextView) info.targetView).getText().toString();
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.floating_contextual_menu, menu);
+
+        Log.i("HOT_POCKETS", "the selected word is: " + selectedWord);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        DatabaseManager dbMan = new DatabaseManager(getApplicationContext());
+        Log.i("HOT_POCKETS", item.toString());
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.edit_name:
+                //editNote(info.id);
+                return true;
+            case R.id.delete_location:
+                Log.i("HOT_POCKETS", "the selected nickname is: " + selectedWord);
+                dbMan.removeHotPocket(selectedWord);
+                onResume();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+
 }

@@ -65,7 +65,7 @@ public class HotPocketScout extends android.app.Service implements LocationListe
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
 
-        if (intent.getAction().equals(getString(R.string.START_SCOUT_ACTION))) {
+        if (intent != null && intent.getAction().equals(getString(R.string.START_SCOUT_ACTION))) {
             Log.i(getString(R.string.HOT_POCKETS), "Received Start Foreground Intent");
             Intent notificationIntent = new Intent(this, HotPocketMain.class);
             notificationIntent.setAction("some.action.here");

@@ -13,6 +13,10 @@
     <string name="nickname">Nickname</string>
     <string name="close_activity">Close</string>
 
+    <!-- Contextual Menu Stuff -->
+    <string name="Delete">Delete</string>
+    <string name="Edit_Name">Edit Location Name</string>
+
     <!-- Database Stuff -->
     <string name="DB_NAME">hpdb</string>
     <string name="DB_TABLE">hotPockets</string>

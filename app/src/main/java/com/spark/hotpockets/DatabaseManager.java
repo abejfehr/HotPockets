@@ -4,8 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -37,7 +35,7 @@ public class DatabaseManager {
 
     public void removeHotPocket(String nickname) {
         db.delete(context.getString(R.string.DB_TABLE),
-                context.getString(R.string.DB_ROW_NICKNAME) + "=" + nickname,
+                context.getString(R.string.DB_ROW_NICKNAME) + "='" + nickname + "'",
                 null);
     }
 
