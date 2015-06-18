@@ -19,6 +19,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * Created by megboudreau on 15-06-17.
+ */
+
 
 public class HotPocketMain extends ActionBarActivity {
 
