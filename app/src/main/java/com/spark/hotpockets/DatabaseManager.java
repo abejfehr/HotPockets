@@ -33,6 +33,16 @@ public class DatabaseManager {
                 values);
     }
 
+    public void editHotPocket(String oldNickname, String newNickname) {
+        // Simple way to edit a row
+        String editSQL = "UPDATE " +
+                context.getString(R.string.DB_TABLE) + " SET " +
+                context.getString(R.string.DB_ROW_NICKNAME) + " = " + newNickname + " WHERE " +
+                context.getString(R.string.DB_ROW_NICKNAME) + " = " + oldNickname;
+        db.execSQL(editSQL);
+
+    }
+
     public void removeHotPocket(String nickname) {
         db.delete(context.getString(R.string.DB_TABLE),
                 context.getString(R.string.DB_ROW_NICKNAME) + "='" + nickname + "'",
@@ -44,7 +54,7 @@ public class DatabaseManager {
         Cursor  cursor = db.rawQuery("SELECT * FROM " + context.getString(R.string.DB_TABLE), null);
 
         // Create a list to return later
-        ArrayList<HotPocket> list = new ArrayList<HotPocket>();
+        ArrayList<HotPocket> list = new ArrayList<>();
 
         // Start from the beginning
         if (cursor .moveToFirst()) {
