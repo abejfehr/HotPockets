@@ -2,9 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.spark.hotpockets" >
 
+    <!-- Google Maps API requires these -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- These are to see if you're connected to WiFi and enable/disable WiFi -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- This is required to get your location -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -27,8 +34,11 @@
 
         <activity
             android:name=".AddLocationActivity"
-            android:label="@string/title_activity_add_location" >
-        </activity>
+            android:label="@string/title_activity_add_location" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAQUzTJnes6bGOwYpDP7e7rmFkJrcmBc2w"/>
     </application>
 
 </manifest>
