@@ -37,8 +37,8 @@ public class DatabaseManager {
         // Simple way to edit a row
         String editSQL = "UPDATE " +
                 context.getString(R.string.DB_TABLE) + " SET " +
-                context.getString(R.string.DB_ROW_NICKNAME) + " = " + newNickname + " WHERE " +
-                context.getString(R.string.DB_ROW_NICKNAME) + " = " + oldNickname;
+                context.getString(R.string.DB_ROW_NICKNAME) + "='" + newNickname + "' WHERE " +
+                context.getString(R.string.DB_ROW_NICKNAME) + "='" + oldNickname + "'";
         db.execSQL(editSQL);
 
     }
