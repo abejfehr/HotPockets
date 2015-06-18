@@ -10,7 +10,7 @@ import android.util.Log;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private String DATABASE_CREATE;
 
     Context context;
@@ -23,7 +23,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 context.getString(R.string.DB_ROW_NICKNAME) + " TEXT, " +
                 context.getString(R.string.DB_ROW_LAT) + " REAL, " +
                 context.getString(R.string.DB_ROW_LONG) +
-                " REAL, PRIMARY KEY (nickname, lat, lng));";
+                " REAL, PRIMARY KEY (" +
+                context.getString(R.string.DB_ROW_NICKNAME) + ", " +
+                context.getString(R.string.DB_ROW_LAT) + ", " +
+                context.getString(R.string.DB_ROW_LONG) + "));";
     }
 
     @Override

@@ -15,7 +15,7 @@ public class HotPocketMain extends ActionBarActivity {
         setContentView(R.layout.activity_hot_pocket_main);
 
         // Start the Hot Pocket Scout if it's not already started
-        Intent startIntent = new Intent(HotPocketMain.this, HotPocketScout.class);
+        Intent startIntent = new Intent(getApplicationContext(), HotPocketScout.class);
         startIntent.setAction(getString(R.string.START_SCOUT_ACTION));
         startService(startIntent);
     }
