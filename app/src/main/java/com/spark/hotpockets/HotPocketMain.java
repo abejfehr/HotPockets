@@ -1,5 +1,7 @@
 package com.spark.hotpockets;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -147,12 +150,39 @@ public class HotPocketMain extends ActionBarActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        DatabaseManager dbMan = new DatabaseManager(getApplicationContext());
+        final DatabaseManager dbMan = new DatabaseManager(getApplicationContext());
         Log.i("HOT_POCKETS", item.toString());
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.edit_name:
-                //editNote(info.id);
+
+
+                // Creating the EditText for the dialog
+                final EditText newName = new EditText(this);
+                newName.setText(selectedWord);
+
+                // Build the dialog
+                new AlertDialog.Builder(this)
+                        .setTitle("Edit Name")
+                        .setMessage("Enter the new name for your Hot Pocket")
+                        .setView(newName)
+                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dbMan.editHotPocket(selectedWord, newName.getText().toString());
+                                onResume();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+
+
+
                 return true;
             case R.id.delete_location:
                 Log.i("HOT_POCKETS", "the selected nickname is: " + selectedWord);
