@@ -107,8 +107,10 @@ public class HotPocketScout extends android.app.Service implements LocationListe
                     Log.i(getString(R.string.HOT_POCKETS), "LatLng " + hp.getLat() +  ", " +
                             hp.getLong() + " is only " + distance +
                             " meters away...enabling the WiFi connection");
-                    return;
                 }
+
+                // Return here, because if there's anything within range at all we should NOT DISCONNECT
+                return;
             }
         }
 
